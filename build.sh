@@ -1,10 +1,11 @@
 #!/bin/bash
 set -e
 
-echo "Installing root dependencies..."
-npm install --legacy-peer-deps
+echo "Current directory: $(pwd)"
+echo "Files in current directory:"
+ls -la
 
-echo "Building client..."
+echo "Installing client dependencies..."
 cd client
 npm install --legacy-peer-deps
 npm run build
