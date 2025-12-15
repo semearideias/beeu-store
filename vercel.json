@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "buildCommand": "cd client && npm ci && npm run build",
+  "buildCommand": "cd client && npm install && npm run build",
   "outputDirectory": "client/dist",
-  "installCommand": "npm ci",
+  "installCommand": "npm install --legacy-peer-deps",
   "env": {
     "NODE_ENV": "production"
   },
