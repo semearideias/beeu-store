@@ -116,19 +116,29 @@ async function migrateTable(tableName) {
 async function migrate() {
   console.log('\n🔄 Iniciando migração de dados...\n');
 
-  for (const table of TABLES) {
-    await migrateTable(table);
+  try {
+    // Desabilitar foreign keys temporariamente
+    await pgPool.query('SET session_replication_role = replica');
+
+    for (const table of TABLES) {
+      await migrateTable(table);
+    }
+
+    // Reabilitar foreign keys
+    await pgPool.query('SET session_replication_role = default');
+
+    console.log('\n✅ Migração concluída!');
+    console.log('\n📊 Próximos passos:');
+    console.log('1. Verificar dados em produção');
+    console.log('2. Testar a aplicação');
+    console.log('3. Se tudo estiver bem, pode eliminar beeu.db\n');
+  } catch (err) {
+    console.error('❌ Erro durante migração:', err.message);
+  } finally {
+    // Fechar conexões
+    sqliteDb.close();
+    await pgPool.end();
   }
-
-  console.log('\n✅ Migração concluída!');
-  console.log('\n📊 Próximos passos:');
-  console.log('1. Verificar dados em produção');
-  console.log('2. Testar a aplicação');
-  console.log('3. Se tudo estiver bem, pode eliminar beeu.db\n');
-
-  // Fechar conexões
-  sqliteDb.close();
-  await pgPool.end();
 }
 
 migrate().catch(err => {

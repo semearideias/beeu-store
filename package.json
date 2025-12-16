@@ -8,7 +8,9 @@
     "dev": "node server/index.js",
     "build": "cd client && npm run build",
     "start": "node server/index.js",
-    "migrate": "node scripts/migrate-to-postgres.js"
+    "init-db": "node scripts/init-postgres.js",
+    "migrate": "node scripts/migrate-to-postgres.js",
+    "migrate-simple": "node scripts/migrate-simple.js"
   },
   "keywords": [
     "brindes",
