@@ -1,0 +1,11 @@
+client/
+*.md
+.git/
+.gitignore
+uploads/
+beeu.db
+beeu.db.backup
+public/
+scripts/
+vercel.json
+build.sh
