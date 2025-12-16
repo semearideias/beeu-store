@@ -6,7 +6,6 @@
   "main": "server/index.js",
   "scripts": {
     "dev": "node server/index.js",
-    "build": "cd client && npm run build",
     "start": "node server/index.js",
     "init-db": "node scripts/init-postgres.js",
     "migrate": "node scripts/migrate-to-postgres.js",
