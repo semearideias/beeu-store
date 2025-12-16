@@ -39,7 +39,13 @@ app.use(upload.single('logo_file')); // Para ficheiros simples
 app.use(express.static('public'));
 
 // Inicializar banco de dados
-await initializeDatabase();
+try {
+  await initializeDatabase();
+} catch (err) {
+  console.error('❌ Erro ao inicializar database:', err.message);
+  console.error('Stack:', err.stack);
+  process.exit(1);
+}
 
 // Rotas
 app.use('/api/auth', authRoutes);

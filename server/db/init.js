@@ -1,7 +1,28 @@
 import { getDatabase, getDatabaseType } from './database.js';
+import fs from 'fs';
+import path from 'path';
+import { fileURLToPath } from 'url';
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 export async function initializeDatabase() {
   const db = await getDatabase();
+  const dbType = getDatabaseType();
+
+  // Se for PostgreSQL, usar o script SQL específico
+  if (dbType === 'postgres') {
+    try {
+      const sqlPath = path.join(__dirname, 'init-postgres.sql');
+      const sql = fs.readFileSync(sqlPath, 'utf8');
+      await db.exec(sql);
+      console.log('✅ Base de dados inicializada com sucesso');
+      return;
+    } catch (err) {
+      // Tabelas já existem, ignorar erro
+      console.log('✅ Base de dados já inicializada');
+      return;
+    }
+  }
 
   // Tabela de usuários
   await db.exec(`
